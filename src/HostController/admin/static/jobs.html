@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="webadminApp">
+<head>
+    <meta charset="UTF-8">
+    <title>TheThing Analysis web interface</title>
+
+    <script src="js/angular.min.js"></script>
+    <script src="js/angular-animate.js"></script>
+    <script src="js/angular-touch.js"></script>
+    <script src="js/ui-bootstrap-tpls.js"></script>
+    <script src="js/webadmin.js"></script>
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/layout.css">
+</head>
+
+<body ng-controller="WebadminJobs">
+    <!-- Menu NAVBAR -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">TheThing</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li><a href="dashboard.html">General</a></li>
+            <li><a href="workers.html">Workers</a></li>
+            <li class="active"><a href="jobs.html">Jobs</a></li>
+            <li><a href="experiments.html">Experiments</a></li>
+            <li><a href="test_beds.html">TestBeds</a></li>
+        </ul>
+      </div>
+    </nav>
+    <!-- End Menu NAVBAR -->
+
+    <div class="container-fluid">
+        <div class="btn-group pull-right" role="group">
+            <button ng-disabled="!selected_jobs || selected_jobs.length < 1" type="button" class="btn btn-default" ng-click="show_experiment_assignment_modal()">
+              <span class="glyphicon glyphicon-play" aria-hidden="true"></span> Assign experiment
+            </button>
+            <button type="button" class="btn btn-default" ng-click="show_job_modal()">
+              <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> New Job
+            </button>
+            <button ng-disabled="job_updating" type="button" class="btn btn-default" ng-click="update_jobs()">
+              <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Refresh
+            </button>
+        </div>
+
+        <h3>Jobs</h3>
+        <p>A job represents a binary installer to be analyzed. A job is identified by its sha1 hash and its download URL. Therefore the database will not admit the presence of two jobs with same hash and origin URL.</p>
+
+        <table class="table table-responsive table-hover">
+            <thead class="thead-inverse">
+                <tr>
+                    <th><!-- SELECT PLACEHOLDER --></th>
+                    <th><input type="number" class="form-control" placeholder="Id" ng-model="job_query.id"></th>
+                    <th><input type="text" class="form-control" placeholder="File Name" ng-model="job_query.fname"></th>
+                    <th><input type="url" class="form-control" placeholder="Download Link" ng-model="job_query.downlink"></th>
+                    <th><input type="text" class="form-control" placeholder="Download Date" ng-model="job_query.downdate"></th>
+                    <th><input type="text" class="form-control" placeholder="Path" ng-model="job_query.path"></th>
+                    <th><input type="text" class="form-control" placeholder="MD5" ng-model="job_query.md5"></th>
+                    <th><input type="text" class="form-control" placeholder="SHA1" ng-model="job_query.sha1"></th>
+                    <th><input type="text" class="form-control" placeholder="Fuzzy Hash" ng-model="job_query.fuzzy"></th>
+                    <th><input type="text" class="form-control" placeholder="Aggregator Id" ng-model="job_query.aggregator_id"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="j in jobs" class="text-collapse" >
+                    <td><input type="checkbox" class="checkbox" ng-click="toggle_selected_jobs(j.id)" /></td>
+                    <td>{{j.id}}</td>
+                    <td style="word-wrap: break-word;">{{j.fname}}</td>
+                    <td>{{j.downlink}}</td>
+                    <td>{{j.downdate}}</td>
+                    <td>{{j.path}}</td>
+                    <td>{{j.md5}}</td>
+                    <td>{{j.sha1}}</td>
+                    <td>{{j.fuzzy}}</td>
+                    <td>{{j.aggregator_id}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

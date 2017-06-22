@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="webadminApp">
+<head>
+    <meta charset="UTF-8">
+    <title>TheThing Analysis web interface</title>
+
+    <script src="js/angular.min.js"></script>
+    <script src="js/angular-animate.js"></script>
+    <script src="js/angular-touch.js"></script>
+    <script src="js/ui-bootstrap-tpls.js"></script>
+    <script src="js/webadmin.js"></script>
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/layout.css">
+</head>
+
+<body ng-controller="WebadminExperiments">
+    <!-- Menu NAVBAR -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">TheThing</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li><a href="dashboard.html">General</a></li>
+            <li><a href="workers.html">Workers</a></li>
+            <li><a href="jobs.html">Jobs</a></li>
+            <li class="active"><a href="experiments.html">Experiments</a></li>
+            <li><a href="test_beds.html">TestBeds</a></li>
+        </ul>
+      </div>
+    </nav>
+    <!-- End Menu NAVBAR -->
+    <div class="container-fluid">
+        <div class="btn-group pull-right" role="group">
+            <button ng-disabled="experiment_updating" type="button" class="btn btn-default" ng-click="update_experiments()">
+              <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Refresh
+            </button>
+        </div>
+
+        <h3>Experiments</h3>
+        <p>An experiment represents an analysis attempt involving a specific job and a specific test bed configuration. Multiple experiments may be run on a single job.
+            An experiment might be under analysis (i.e. a worker has been assigned the experiment) or not. When the analysis is over, the experiment might be successful of failed.
+            A successful experiment means that the whole analysis process has produced a report (which might be meaningful or not), which can be later loaded into the db.
+            Please note that the analysis might still be failed due to wrong UI interactions. The user should inspect the report's screenshots to verify that the anslysis was OK.
+        </p>
+
+        <table class="table table-responsive table-hover" >
+            <thead>
+                <tr>
+                    <th class="col-md-1"><input type="number" class="form-control" placeholder="Id" ng-model="experiment_query.id"></th>
+                    <th class="col-md-1"><input type="number" class="form-control" placeholder="Job Id" ng-model="experiment_query.job_id"></th>
+                    <th class="col-md-1"><input type="number" class="form-control" placeholder="TestBed Id" ng-model="experiment_query.test_bed_id"></th>
+                    <th class="col-md-1"><div class="form-control"><input type="checkbox" class="checkbox-inline" ng-true-value="true" ng-false-value="false" ng-model="experiment_query.analysis_in_progress"> Ongoing Analysis</div></th>
+                    <th class="col-md-1"><select ng-model="experiment_query.result" class="form-control glyphicon"><option value="" selected="selected">Any outcome</option><option value="success">&#xe084; SUCCESSFUL ANALYSIS</option><option value="failure">&#xe083; FAILED ANALYSIS</option></select></th>
+                    <th class="col-md-1"><input type="number" class="form-control" placeholder="Duration" ng-model="experiment_query.duration"></th>
+                    <th class="col-md-1"><input type="number" class="form-control" placeholder="Analysis attempt" ng-model="experiment_query.attempt"></th>
+                    <th class="col-md-1"><div class="form-control"><input type="checkbox" class="checkbox-inline" ng-true-value="true" ng-false-value="false" ng-model="experiment_query.report_processed"> Report loaded</div></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="e in experiments" class="text-collapse">
+                    <td>{{e.id}}</td>
+                    <td>{{e.job_id}}</td>
+                    <td>{{e.test_bed_id}}</td>
+                    <td>
+                        <span ng-show="e.analysis_in_progress" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                        <span ng-show="!e.analysis_in_progress" class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                    </td>
+                    <td>{{e.result}}</td>
+                    <td>{{e.duration}}</td>
+                    <td>{{e.attempt}}</td>
+                    <td>
+                        <span ng-show="e.report_processed" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                        <span ng-show="!e.report_processed" class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+</body>
+</html>

@@ -1,0 +1,10 @@
+body {
+    /* The following padding is needed when using fixed-navbar */
+    padding-top: 70px;
+}
+
+.text-collapse{
+    overflow: hidden;
+    word-wrap: break-word;
+    word-break: break-all;
+}

@@ -1,0 +1,24 @@
+<div class="modal-header">
+    <h3 class="modal-title" id="modal-title">Assign job to new Experiment</h3>
+</div>
+<!-- This form is used to create a Experiment provided its job -->
+    <div class="modal-body" id="modal-body">
+        <div class="form-group">
+            <p>Job IDs: <span style="font-weight: bold" readonly ng-bind="job_ids_str" id="job_ids"></span></p>
+        </div>
+        <div class="form-group">
+            <label for="test_bed">Test Bed:</label>
+            <select class="form-control" id="test_bed" ng-model="test_bed_id">
+                <option ng-repeat="tb in test_beds" value="{{tb.id}}">{{tb.name}}</option>
+            </select>
+        </div>
+        <div class="progress" ng-show="progress > 0">
+            <div class="progress-bar progress-bar-striped active" role="progressbar" value="{{pb_max - progress}}" aria-valuenow="{{pb_max - progress}}" aria-valuemin="0" aria-valuemax="{{pb_max}}" style="width:{{(pb_max - progress)*100/pb_max}}%">
+            Processing...
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <input type="submit" class="btn btn-primary" ng-disabled="uploading" type="button" ng-click="assign_experiment()" value="Assign" />
+        <button class="btn btn-warning" type="button" ng-disabled="uploading" ng-click="cancel()">Cancel</button>
+    </div>

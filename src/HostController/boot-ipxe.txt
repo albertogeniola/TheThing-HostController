@@ -1,0 +1,10 @@
+#!ipxe
+set SRV 192.168.0.100:54321
+
+:retry_dhcp
+echo Configuring DHCP network...
+dhcp net0 || goto retry_dhcp
+
+echo Network configured. ; echo IP address: ${net0/ip} ; echo Subnet mask: ${net0/netmask} ;
+echo Contacting webserver for iSCSI boot...
+chain http://${SRV}/boot/${net0/mac}
